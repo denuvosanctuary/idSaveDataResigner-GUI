@@ -153,18 +153,15 @@ impl SaveDataApp {
     }
 
     fn is_file_encrypted(data: &[u8]) -> bool {
-        // Check if file starts with common save file headers or has high entropy
         if data.len() < 16 {
             return false;
         }
         
-        // Check for common unencrypted patterns
         let text_start = std::str::from_utf8(&data[..16.min(data.len())]).is_ok();
         if text_start {
             return false;
         }
         
-        // Simple entropy check - encrypted files usually have high entropy
         let mut byte_counts = [0u32; 256];
         for &byte in data.iter().take(1024) {
             byte_counts[byte as usize] += 1;
@@ -179,7 +176,7 @@ impl SaveDataApp {
             })
             .sum();
         
-        entropy > 6.0 // High entropy suggests encryption
+        entropy > 6.0
     }
 
     fn process_files(&mut self) {
@@ -209,7 +206,6 @@ impl SaveDataApp {
         let input = PathBuf::from(&self.input_dir);
         let output = self.get_final_output_path();
         
-        // Check for encryption warning on encrypt mode
         if self.mode == Mode::Encrypt {
             if let Ok(files) = Self::collect_files(&input) {
                 if let Some(first_file) = files.first() {
@@ -569,7 +565,6 @@ impl SaveDataApp {
             }
         });
 
-        // Handle status display and user interactions
         let mut new_status = None;
         let mut start_encrypt = None;
         
@@ -606,12 +601,10 @@ impl SaveDataApp {
             }
         }
         
-        // Apply any status changes
         if let Some(status) = new_status {
             self.status = status;
         }
         
-        // Start encryption if requested
         if let Some((input, output, code, id)) = start_encrypt {
             let (tx, rx) = mpsc::channel();
             self.progress_rx = Some(rx);
