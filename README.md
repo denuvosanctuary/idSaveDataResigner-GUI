@@ -6,11 +6,10 @@
 A user-friendly GUI wrapper for idSaveDataResigner that allows you to **encrypt, decrypt, and resign SaveData files** from various games running on idTech Engine versions 7 and 8 without using the command line.
 
 ## Features
-- **Main Tab**: Easy-to-use interface for Encrypt, Decrypt, and Resign operations
-- **Settings Tab**: Configure your desired output folder
-- **No Command Line Required**: Simple point-and-click interface
-- **Batch Processing**: Processes all files in the selected folder
-- **Automatic Output Organization**: Creates folders with suffixes based on the operation mode
+- **Main Tab**: Easy-to-use interface for Encrypt, Decrypt, and Resign operations.
+- **Settings Tab**: Configure your desired output folder.
+- **Batch Processing**: Processes all files in the selected folder.
+- **Automatic Output Organization**: Creates folders with suffixes based on the operation mode.
 
 ## Supported titles
 | Game Title                         | Steam App ID  |
@@ -20,12 +19,9 @@ A user-friendly GUI wrapper for idSaveDataResigner that allows you to **encrypt,
 | DOOM The Dark Ages                 | 3017860       |
 
 ## Supported platforms
-Out of the box, it only supports SaveData files from the Steam PC version.
+It only supports Steam versions of the games.
 
-# 🤯 Why was it created :interrobang:
-This GUI version was created to make the original command-line tool more accessible to users who prefer a graphical interface for sharing SaveData files between accounts.
-
-# :scream: Is it safe?
+# 🤔 Is it safe?
 The short answer is: **No.** 
 > [!CAUTION]
 > If you unreasonably edit your SaveData files, you risk corrupting them or getting banned from playing online. In both cases, you will lose your progress.
@@ -43,7 +39,7 @@ You've been warned. Now that you fully understand the possible consequences, you
 ## Installation
 1. Download the latest release from the releases page
 2. Extract the files to a folder of your choice
-3. Run `idSaveDataResigner-GUI.exe`
+3. Run `resigner.exe`
 
 ## Usage
 
@@ -55,6 +51,8 @@ You've been warned. Now that you fully understand the possible consequences, you
    - For **Decrypt/Encrypt**: Enter your Steam ID (Old/Save SteamID)
    - For **Resign**: Enter both the original Steam ID and the target Steam ID
 5. **Process**: Click the process button to start the operation
+
+- It also adds an "INFO.txt" file inside your processed showcasing what you just did.
 
 ### Settings Tab
 - **Output Folder**: Set your preferred output directory
@@ -82,7 +80,6 @@ cargo run
 ```
 
 ## Requirements
-- Old SteamID from where the saves originated.
 - A Functioning brain
 
 # :heart: Credits
