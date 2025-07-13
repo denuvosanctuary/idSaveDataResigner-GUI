@@ -1,8 +1,5 @@
 #[cfg(target_os = "windows")]
-use aes_gcm::{
-    aead::{AeadCore, KeyInit, OsRng, Aead, Payload},
-    Aes128Gcm, Nonce, Key
-};
+use aes_gcm::{aead::{AeadCore, KeyInit, OsRng, Aead, Payload}, Aes128Gcm, Nonce, Key};
 use sha2::{Sha256, Digest};
 use anyhow::{Result, anyhow};
 
