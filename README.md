@@ -13,11 +13,11 @@ A user-friendly GUI wrapper for idSaveDataResigner that allows you to **encrypt,
 - **Automatic Output Organization**: Creates folders with suffixes based on the operation mode
 
 ## Supported titles
-| Game Title                         | Steam App ID  | Game Code |
-|------------------------------------|---------------|-----------|
-| DOOM Eternal                       | 782330        | MANCUBUS  |
-| Indiana Jones and the Great Circle | 2677660       | SUKHOTHAI |
-| DOOM The Dark Ages                 | 3017860       | MANCUBUS  |
+| Game Title                         | Steam App ID  |
+|------------------------------------|---------------|
+| DOOM Eternal                       | 782330        |
+| Indiana Jones and the Great Circle | 2677660       |
+| DOOM The Dark Ages                 | 3017860       |
 
 ## Supported platforms
 Out of the box, it only supports SaveData files from the Steam PC version.
@@ -85,11 +85,5 @@ cargo run
 - Windows 10 or later
 - Valid Steam SaveData files from supported games
 
-# :fire: Issues
-If you encounter any problems, please report them in the [Issues](https://github.com/denuvosanctuary/idSaveDataResigner-GUI/issues) section.
-
 # :heart: Credits
 This GUI is built upon the excellent work of [mi5hmash](https://github.com/mi5hmash/) and their [idSaveDataResigner](https://github.com/mi5hmash/idSaveDataResigner/) project. All core logic and SaveData processing functionality is credited to their original implementation.
-
-# :scroll: License
-[Add your license information here]
