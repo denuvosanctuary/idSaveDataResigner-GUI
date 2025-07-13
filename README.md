@@ -52,7 +52,7 @@ You've been warned. Now that you fully understand the possible consequences, you
    - For **Resign**: Enter both the original Steam ID and the target Steam ID
 5. **Process**: Click the process button to start the operation
 
-- It also adds an "INFO.txt" file inside your processed showcasing what you just did.
+- It also adds an "INFO.txt" file inside your processed folder showcasing what you just did.
 
 ### Settings Tab
 - **Output Folder**: Set your preferred output directory
