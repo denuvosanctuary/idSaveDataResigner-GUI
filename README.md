@@ -3,7 +3,7 @@
 
 # 🆔 idSaveDataResigner-GUI - What is it :interrobang:
 
-A user-friendly GUI wrapper for idSaveDataResigner that allows you to **encrypt, decrypt, and resign SaveData files** from various games running on idTech Engine versions 7 and 8 without using the command line.
+A user-friendly GUI wrapper for idSaveDataResigner that allows you to **encrypt, decrypt, and resign SaveData files** from various games running on idTech Engine versions 7/8.
 
 ## Features
 - **Main Tab**: Easy-to-use interface for Encrypt, Decrypt, and Resign operations.
