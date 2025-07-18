@@ -270,8 +270,8 @@ impl SaveDataApp {
                 return Err("Input path must be a directory, not a file".into());
             }
 
-            fs::create_dir_all(&output).map_err(|e| format!("Failed to create output directory: {}", e))?;
             let files = Self::collect_files(&input)?;
+            fs::create_dir_all(&output).map_err(|e| format!("Failed to create output directory: {}", e))?;
             
             if files.is_empty() {
                 return Err("No files found in input directory".into());
@@ -328,8 +328,8 @@ impl SaveDataApp {
                 return Err("Input path must be a directory, not a file".into());
             }
 
-            fs::create_dir_all(&output).map_err(|e| format!("Failed to create output directory: {}", e))?;
             let files = Self::collect_files(&input)?;
+            fs::create_dir_all(&output).map_err(|e| format!("Failed to create output directory: {}", e))?;
             
             if files.is_empty() {
                 return Err("No files found in input directory".into());
@@ -386,8 +386,8 @@ impl SaveDataApp {
                 return Err("Input path must be a directory, not a file".into());
             }
 
-            fs::create_dir_all(&output).map_err(|e| format!("Failed to create output directory: {}", e))?;
             let files = Self::collect_files(&input)?;
+            fs::create_dir_all(&output).map_err(|e| format!("Failed to create output directory: {}", e))?;
             
             if files.is_empty() {
                 return Err("No files found in input directory".into());
@@ -482,7 +482,7 @@ impl SaveDataApp {
         }
         
         if files.is_empty() {
-            return Err("No supported save files (.bin, .dat, .dat.backup) found in the directory".into());
+            return Err("No supported save files (.bin / .dat / .details / .details-backup / .dat-backup) found in the directory".into());
         }
         
         Ok(files)
