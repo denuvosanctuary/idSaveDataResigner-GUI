@@ -434,24 +434,89 @@ impl SaveDataApp {
         };
     }
 
+    fn is_save(path: &PathBuf) -> bool {
+        if let Some(name) = path.file_name().and_then(|n| n.to_str()) {
+            let lower = name.to_lowercase();
+            return lower.ends_with(".bin") || 
+                lower.ends_with(".dat") || 
+                lower.ends_with(".details") ||
+                lower.ends_with(".details-backup") ||
+                lower.ends_with(".dat-backup");
+        }
+        false
+    }
+
     fn collect_files(path: &PathBuf) -> Result<Vec<PathBuf>, Box<dyn std::error::Error>> {
         let mut files = Vec::new();
+        let mut bad = Vec::new();
         
         if path.is_file() {
-            files.push(path.clone());
+            if Self::is_save(path) {
+                files.push(path.clone());
+            } else {
+                bad.push(path.clone());
+            }
         } else if path.is_dir() {
             for entry in fs::read_dir(path)? {
                 let entry = entry?;
                 let p = entry.path();
                 if p.is_file() {
-                    files.push(p);
+                    if Self::is_save(&p) {
+                        files.push(p);
+                    } else {
+                        bad.push(p);
+                    }
                 } else if p.is_dir() {
-                    files.extend(Self::collect_files(&p)?);
+                    let (sub, sub_bad) = Self::walk_dir(&p)?;
+                    files.extend(sub);
+                    bad.extend(sub_bad);
                 }
             }
         }
         
+        if !bad.is_empty() {
+            let _names: Vec<String> = bad
+                .iter()
+                .filter_map(|p| p.file_name().and_then(|n| n.to_str().map(|s| s.to_string())))
+                .collect();
+        }
+        
+        if files.is_empty() {
+            return Err("No supported save files (.bin, .dat, .dat.backup) found in the directory".into());
+        }
+        
         Ok(files)
+    }
+
+    fn walk_dir(path: &PathBuf) -> Result<(Vec<PathBuf>, Vec<PathBuf>), Box<dyn std::error::Error>> {
+        let mut files = Vec::new();
+        let mut bad = Vec::new();
+        
+        if path.is_file() {
+            if Self::is_save(path) {
+                files.push(path.clone());
+            } else {
+                bad.push(path.clone());
+            }
+        } else if path.is_dir() {
+            for entry in fs::read_dir(path)? {
+                let entry = entry?;
+                let p = entry.path();
+                if p.is_file() {
+                    if Self::is_save(&p) {
+                        files.push(p);
+                    } else {
+                        bad.push(p);
+                    }
+                } else if p.is_dir() {
+                    let (sub, sub_bad) = Self::walk_dir(&p)?;
+                    files.extend(sub);
+                    bad.extend(sub_bad);
+                }
+            }
+        }
+        
+        Ok((files, bad))
     }
 
     fn browse_folder(&mut self, for_output: bool) {
