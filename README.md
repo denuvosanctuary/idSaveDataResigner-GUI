@@ -38,7 +38,7 @@ You've been warned. Now that you fully understand the possible consequences, you
 
 ## Installation
 1. Download the latest release from the releases page
-2. Extract the files to a folder of your choice
+2. Put the file to a folder of your choice
 3. Run `resigner.exe`
 
 ## Usage
@@ -52,7 +52,7 @@ You've been warned. Now that you fully understand the possible consequences, you
    - For **Resign**: Enter both the original Steam ID and the target Steam ID
 5. **Process**: Click the process button to start the operation
 
-- It also adds an "INFO.txt" file inside your processed showcasing what you just did.
+- It also adds an "INFO.txt" file inside your processed folder showcasing what you just did.
 
 ### Settings Tab
 - **Output Folder**: Set your preferred output directory
@@ -83,4 +83,4 @@ cargo run
 - A Functioning brain
 
 # :heart: Credits
-This GUI is built upon the excellent work of [mi5hmash](https://github.com/mi5hmash/) and their [idSaveDataResigner](https://github.com/mi5hmash/idSaveDataResigner/) project. All core logic and SaveData processing functionality is credited to their original implementation.
+This GUI is built upon the work of [mi5hmash](https://github.com/mi5hmash/) and their [idSaveDataResigner](https://github.com/mi5hmash/idSaveDataResigner/) project. All core logic and SaveData processing functionality is credited to their original implementation.
