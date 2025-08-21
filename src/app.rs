@@ -685,8 +685,8 @@ impl SaveDataApp {
             ui.label("• Decrypt: Convert encrypted save files to readable format");
             ui.label("• Encrypt: Convert readable files back to encrypted format");
             ui.horizontal(|ui| {
-                ui.label("• SteamID: Your 64-bit Steam ID (use");
-                ui.hyperlink_to("Click me to be redirected", "https://steamdb.info/calculator/");
+                ui.label("• SteamID: Your 64-bit Steam ID");
+                ui.hyperlink_to("Click me to check", "https://steamdb.info/calculator/");
                 ui.label(")");
             });
             ui.label("• Always backup your save files before processing!");
@@ -739,7 +739,6 @@ impl eframe::App for SaveDataApp {
         }
 
         egui::CentralPanel::default().show(ctx, |ui| {
-            ui.heading("idSaveData Resigner");
             ui.horizontal(|ui| {
                 ui.selectable_value(&mut self.active_tab, Tab::Main, "Main");
                 ui.selectable_value(&mut self.active_tab, Tab::Settings, "Settings");

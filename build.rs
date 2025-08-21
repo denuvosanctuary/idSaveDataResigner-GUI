@@ -1,3 +1,10 @@
+#[cfg(windows)]
+
 fn main() {
-    embed_resource::compile("app.rc", vec!["/nologo"]);
+    let mut res = winres::WindowsResource::new();
+    res.set_icon("icon.ico");
+    res.compile().unwrap();
 }
+
+#[cfg(not(windows))]
+fn main() {}
