@@ -32,11 +32,26 @@ struct AppConfig {
 struct GameInfo {
     name: &'static str,
     code: &'static str,
+    platforms: &'static [Platform],
+}
+
+#[derive(Debug, Clone, PartialEq)]
+enum Platform {
+    Steam,
+    GOG,
 }
 
 const GAMES: &[GameInfo] = &[
-    GameInfo { name: "DOOM Eternal & The Dark Ages", code: "MANCUBUS" },
-    GameInfo { name: "Indiana Jones and the Great Circle", code: "SUKHOTHAI" },
+    GameInfo { 
+        name: "DOOM Eternal & The Dark Ages", 
+        code: "MANCUBUS",
+        platforms: &[Platform::Steam],
+    },
+    GameInfo { 
+        name: "Indiana Jones and the Great Circle", 
+        code: "SUKHOTHAI",
+        platforms: &[Platform::Steam, Platform::GOG],
+    },
 ];
 
 pub struct SaveDataApp {
@@ -50,7 +65,8 @@ pub struct SaveDataApp {
     status: Status,
     progress_rx: Option<mpsc::Receiver<String>>,
     active_tab: Tab,
-    config_file: PathBuf, 
+    config_file: PathBuf,
+    platform: Platform,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -77,6 +93,7 @@ impl SaveDataApp {
             progress_rx: None,
             active_tab: Tab::Main,
             config_file: config_file,
+            platform: Platform::Steam,
         }
     }
 
@@ -103,6 +120,20 @@ impl SaveDataApp {
             Mode::Resign => "_resigned",
             Mode::Decrypt => "_decrypted",
             Mode::Encrypt => "_encrypted",
+        }
+    }
+
+    fn get_game_code(&self) -> String {
+        match (self.game_idx, &self.platform) {
+            (1, Platform::GOG) => "PAINELEMENTAL".to_string(),
+            _ => GAMES[self.game_idx].code.to_string(),
+        }
+    }
+
+    fn get_id_label(&self) -> &'static str {
+        match (&self.platform, self.game_idx) {
+            (Platform::GOG, 1) => "Galaxy ID",
+            _ => "SteamID",
         }
     }
 
@@ -182,22 +213,26 @@ impl SaveDataApp {
     fn process_files(&mut self) {
         match self.mode {
             Mode::Decrypt | Mode::Encrypt => {
-                if let Err(e) = Self::validate_steam_id(&self.steam_id) {
-                    self.status = Status::Error(format!("Invalid SteamID: {}", e));
-                    return;
+                if self.platform == Platform::Steam {
+                    if let Err(e) = Self::validate_steam_id(&self.steam_id) {
+                        self.status = Status::Error(format!("Invalid SteamID: {}", e));
+                        return;
+                    }
                 }
             },
             Mode::Resign => {
-                if let Err(e) = Self::validate_steam_id(&self.old_id) {
-                    self.status = Status::Error(format!("Invalid Old SteamID: {}", e));
-                    return;
-                }
-                if let Err(e) = Self::validate_steam_id(&self.new_id) {
-                    self.status = Status::Error(format!("Invalid New SteamID: {}", e));
-                    return;
+                if self.platform == Platform::Steam {
+                    if let Err(e) = Self::validate_steam_id(&self.old_id) {
+                        self.status = Status::Error(format!("Invalid Old SteamID: {}", e));
+                        return;
+                    }
+                    if let Err(e) = Self::validate_steam_id(&self.new_id) {
+                        self.status = Status::Error(format!("Invalid New SteamID: {}", e));
+                        return;
+                    }
                 }
                 if self.old_id == self.new_id {
-                    self.status = Status::Error("Old and New SteamIDs cannot be the same".to_string());
+                    self.status = Status::Error("Old and New IDs cannot be the same".to_string());
                     return;
                 }
             },
@@ -205,6 +240,7 @@ impl SaveDataApp {
 
         let input = PathBuf::from(&self.input_dir);
         let output = self.get_final_output_path();
+        let code = self.get_game_code();
         
         if self.mode == Mode::Encrypt {
             if let Ok(files) = Self::collect_files(&input) {
@@ -214,7 +250,7 @@ impl SaveDataApp {
                             self.status = Status::EncryptionWarning(
                                 input.clone(),
                                 output,
-                                GAMES[self.game_idx].code.to_string(),
+                                code.clone(),
                                 self.steam_id.clone()
                             );
                             return;
@@ -230,7 +266,7 @@ impl SaveDataApp {
     fn start_processing(&mut self) {
         let input = PathBuf::from(&self.input_dir);
         let output = self.get_final_output_path();
-        let code = GAMES[self.game_idx].code.to_string();
+        let code = self.get_game_code();
         let mode = self.mode.clone();
         
         let (tx, rx) = mpsc::channel();
@@ -573,6 +609,14 @@ impl SaveDataApp {
                 });
         });
 
+        if GAMES[self.game_idx].platforms.len() > 1 {
+            ui.horizontal(|ui| {
+                ui.label("Platform:");
+                ui.radio_value(&mut self.platform, Platform::Steam, "Steam");
+                ui.radio_value(&mut self.platform, Platform::GOG, "GOG");
+            });
+        }
+
         ui.separator();
         if Self::path_input_row(ui, "Input Folder:", &mut self.input_dir) {
             self.browse_folder(false);
@@ -589,17 +633,17 @@ impl SaveDataApp {
         match self.mode {
             Mode::Decrypt | Mode::Encrypt => {
                 ui.horizontal(|ui| {
-                    ui.label("SteamID:");
+                    ui.label(format!("{}:", self.get_id_label()));
                     ui.text_edit_singleline(&mut self.steam_id);
                 });
             }
             Mode::Resign => {
                 ui.horizontal(|ui| {
-                    ui.label("Old SteamID:");
+                    ui.label(format!("Old {}:", self.get_id_label()));
                     ui.text_edit_singleline(&mut self.old_id);
                 });
                 ui.horizontal(|ui| {
-                    ui.label("New SteamID:");
+                    ui.label(format!("New {}:", self.get_id_label()));
                     ui.text_edit_singleline(&mut self.new_id);
                 });
             }
