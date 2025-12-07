@@ -56,6 +56,7 @@ You've been warned. Now that you understand the possible consequences, you may p
   
 > [!TIP]
 > You can use the SteamDB calculator at [steamdb.info](https://steamdb.info/calculator/) to find your 64-bit SteamID.
+
 > [!TIP]
 > After logging into [GOG](https://gog.com) you can open this url: `https://gog.com/userData.json` to access your userId or galaxyUserId (whichever is applicable) to be used.
 
