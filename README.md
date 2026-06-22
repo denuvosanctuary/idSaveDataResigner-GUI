@@ -11,13 +11,17 @@ A user-friendly GUI wrapper for idSaveDataResigner that allows you to **encrypt,
 ## Supported titles
 | Game Title                         | Platform Support          |
 |------------------------------------|---------------------------|
-| DOOM Eternal                       | Steam                     |
-| Indiana Jones and the Great Circle | Steam **and GOG**         |
+| DOOM Eternal                       | Steam and GOG             |
+| Indiana Jones and the Great Circle | Steam and GOG             |
 | DOOM The Dark Ages                 | Steam                     |
 
 ## Supported platforms
 - Steam versions of all supported games  
-- **GOG version supported for *Indiana Jones and the Great Circle* only**
+- **GOG versions supported for *DOOM Eternal* and *Indiana Jones and the Great Circle***
+
+## Notes on GOG Support
+- **DOOM Eternal [GOG]**: The GOG release uses a hardcoded fixed ID. Enter `GogUser` into the User ID field.
+- **Indiana Jones and the Great Circle [GOG]**: The GOG release bundles a fake Steam API wrapper that hardcodes a specific SteamID. Enter `76561197960265729` into the User ID field.
 
 # 🤔 Is it safe?
 The short answer is: **No.**
